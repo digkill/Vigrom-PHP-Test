@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+  php:
+    container_name: vigrom_php
+    restart: always
+    build:
+      context: ./php
+    volumes:
+      - ./../:/var/www/html
+    environment:
+      - VIRTUAL_HOST=vigrom.local
+    ports:
+      - "8666:80"
+    expose:
+      - "80"
+    tty: true
+
+  mariadb:
+    container_name: vigrom_mysql
+    build: ./mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: vigrom
+    ports:
+      - "3666:3306"
+    expose:
+      - "3306"
+    volumes:
+      - ./docker/mariadb:/var/lib/mysql
+    tty: true
